@@ -1,12 +1,12 @@
-#BookStore
+# BookStore
 
-# 开发环境
+## 开发环境
 
 jdk1.8+tomcat8+springmvc4+mybatis3 
 
-## java代码格式规范
+### java代码格式规范
 - **参考[阿里java代码规范](https://github.com/xuguanhua/xmtgzs/blob/master/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%2BJava%2B%E5%BC%80%E5%8F%91%E6%89%8B%E5%86%8C.pdf)**
-## Pull Request要求
+### Pull Request要求
 
 - **代码格式** 提交前请按项目风格进行格式化。
 
@@ -20,7 +20,7 @@ jdk1.8+tomcat8+springmvc4+mybatis3
 
 - **清晰的commit历史** - 保证你的pull请求的每次commit操作都是有意义的。如果你开发中需要执行多次的即时commit操作，那么请把它们放到一起再提交pull请求。**详情请了解git rebase**
 
-## Commit message 规范
+### Commit message 规范
 
 规定格式如下：
 
