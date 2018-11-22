@@ -17,6 +17,7 @@ public interface BookstoreService {
     /**************订单相关接口**************/
     //根据用户及订单状态查询订单
     List<Order> slctOdrsByUsridAndStat(int userid, int status); 
+    
     /**************订单相关接口**************/
     //添加新的订单信息
     void InsertOrders(Order order);
