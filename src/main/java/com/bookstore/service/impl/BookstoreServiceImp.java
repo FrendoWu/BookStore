@@ -17,6 +17,10 @@ public class BookstoreServiceImp implements BookstoreService {
     //Dao层自动注入
     @Autowired
     TestDao testDao;
+    @Autowired
+    OrderDao orderDao;
+    @Autowired
+    BookDao bookDao;
 
     @Override
     public List<Test> selectAllUserAccount() {
@@ -26,5 +30,25 @@ public class BookstoreServiceImp implements BookstoreService {
     @Override
     public Test selectUserAccount(String account) {
         return testDao.selectUserAccount(account);
+    }
+
+    @Override
+    public List<Order> slctOdrsByUsridAndStat(int userid, int status) {
+        return orderDao.slctOdrsByUsridAndStat(userid, status);
+    }
+
+    @Override
+    public void InsertOrders(Order order) {
+        orderDao.InsertOrders(order);
+    }
+
+    @Override
+    public List<Book> selectBookByID(int id){
+        return bookDao.selectBookByID(id);
+    }
+
+    @Override
+    public void InsertBooks(Book book){
+        bookDao.InsertBooks(book);
     }
 }
