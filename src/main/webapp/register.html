@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>注册</title>
+    <meta charset="UTF-8" />
+	<link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="css/fontawesome-all.css">
+	<link href="http://maxcdn.bootstrapcdn.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+	<link href="http://maxcdn.bootstrapcdn.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+</head>
+<body>
+	<div id="bg">
+		<canvas></canvas>
+		<canvas></canvas>
+		<canvas></canvas>
+	</div>
+	<h1>新用户注册</h1>
+	<div class="sub-main-w3">
+		<form action="/account/registerUser" method="POST">
+			<h2>Register
+			</h2>
+			<div class="form-style-agile">
+				<label>
+					<i class="fas fa-user"></i>
+					Username
+				</label>
+				<input placeholder="Username" name="account" type="text" required="">
+			</div>
+			<div class="form-style-agile">
+				<label>
+					<i class="fas fa-unlock-alt"></i>
+					Password
+				</label>
+				<input placeholder="Password" name="password" type="password" required="">
+			</div>
+			<input type="submit" value="Register">
+		</form>
+	</div>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/canva_moving_effect.js"></script>
+	<script language = "JavaScript">
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+        function getStatus() {
+            var status = GetQueryString("status");
+            if(status=="1") {
+                var dom1 = document.getElementById("username");
+                dom1.innerHTML += "<b style='color: red'>用户名已存在</b>"
+            }
+        }
+	</script>
+</body>
+</html>

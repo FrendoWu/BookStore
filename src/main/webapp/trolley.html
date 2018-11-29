@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <title>我的购物车</title>
+    <style>
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    
+        #bg canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #trolley {
+            margin: 0% 15% 0% 15%;
+            background-color:coral;
+            padding: 0;
+            border: 0;
+            font-family: STXingkai;
+            font-size: 40px;
+            color: aliceblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="bg">
+        <canvas></canvas>
+        <canvas></canvas>
+        <canvas></canvas>
+    </div>
+    <div class = "page-header" style="margin: 0% 15% 0% 15%; background-color:powderblue;padding: 0;border: 0">
+        <div id = "top" class = "row">
+            <div id = "top_left" class = "col-sm-4 text-right">
+                <img src = "images/logo.ico" width="100" height = "100"/>
+            </div>
+            <div class="col-sm-4" style = "margin-top: 20px">
+                    <h1 class = "text-primary" style = "font-family: STHupo">我的网上书城</h1>
+            </div>
+            <div id = "top_right" class = "col-sm-4" style = "margin-top: 25px;">
+                <img src="images/trolley.png" width="75" height="75"/>
+            </div>
+        </div>
+    </div>
+    <div id="trolley">
+        <div>&nbsp;&nbsp;&nbsp;&nbsp;购物车</div>
+    </div>
+    <script src="js/jquery.min.js" ></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/commons.js"></script>
+    <script src="js/canva_moving_effect.js"></script>
+</body>
+</html>
