@@ -8,7 +8,7 @@
 	<link href="http://maxcdn.bootstrapcdn.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 	<link href="http://maxcdn.bootstrapcdn.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
 </head>
-<body>
+<body onload="getStatus()">
 	<div id="bg">
 		<canvas></canvas>
 		<canvas></canvas>
@@ -20,7 +20,7 @@
 			<h2>Register
 			</h2>
 			<div class="form-style-agile">
-				<label>
+				<label id = "username">
 					<i class="fas fa-user"></i>
 					Username
 				</label>
@@ -49,7 +49,7 @@
             var status = GetQueryString("status");
             if(status=="1") {
                 var dom1 = document.getElementById("username");
-                dom1.innerHTML += "<b style='color: red'>用户名已存在</b>"
+                dom1.innerHTML += "<b style='color: red'>用户名已存在</b>";
             }
         }
 	</script>

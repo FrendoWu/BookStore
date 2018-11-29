@@ -38,7 +38,7 @@ public class UserAccountController {
         return result;
     }
 
-    @RequestMapping(value = "/loginUser",method = RequestMethod.POST, produces= "application/json;charset=UTF-8")
+    @RequestMapping(value = "/loginUser",method = RequestMethod.GET, produces= "application/json;charset=UTF-8")
     @ResponseBody
     public void selectUserAccount(HttpServletRequest request,HttpServletResponse response) throws IOException, ServletException {
         String account = request.getParameter("account");
@@ -87,7 +87,7 @@ public class UserAccountController {
             response.sendRedirect("/register.html?status=1");
         } else {
             BookstoreService.insertUserAccount(userAccount);
-            response.sendRedirect("/loginUser?account="+userAccount+"&password="+password);
+            response.sendRedirect("/account/loginUser?account="+account+"&password="+password);
         }
     }
 }
