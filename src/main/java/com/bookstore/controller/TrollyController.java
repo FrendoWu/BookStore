@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("trolly")
-public class trollyController {
+public class TrollyController {
     @Autowired
     @Qualifier("BookstoreService")
     private com.bookstore.service.BookstoreService BookstoreService;

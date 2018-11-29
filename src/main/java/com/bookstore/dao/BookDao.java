@@ -15,4 +15,10 @@ public interface BookDao {
 
     @Insert("insert into orders (id, category, name, introduction, money, imgurl) values (#{id},#{category},#{name},#{introduction},#{money},#{imgurl})")
     void InsertBooks(Book book);
+
+    @Select("select * from book")
+    List<Book> selectAllBooks();
+
+    @Select("select * from book where category = #{category}")
+    List<Book> selectBooksByCategory(String category);
 }

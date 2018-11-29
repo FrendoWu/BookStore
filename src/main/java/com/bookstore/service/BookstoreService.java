@@ -16,6 +16,12 @@ public interface BookstoreService {
     //用户注册
     void insertUserAccount(UserAccount userAccount);
 
+    //显示所有书籍
+    List<Book> selectAllBooks();
+
+    //按种类显示书籍
+    List<Book> selectBooksByCategory(String category);
+
     /**************订单相关接口**************/
     //根据用户及订单状态查询订单
     List<Order> slctOdrsByUsridAndStat(int userid, int status); 

@@ -23,7 +23,7 @@
         }
     </style>
 </head>
-<body onload = "initAJAX();getUserName()" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
+<body onload = "initAJAX();getUserName();showBook('全部')" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
         <div id="bg">
             <canvas></canvas>
             <canvas></canvas>
@@ -45,16 +45,16 @@
         <div id = "body">
             <div id = "nav" style = "margin:0% 15% 0% 15%;border:0; color: darkturquoise;background-color: white;border: 0">
                 <ul class="nav nav-pills nav-justified">
-                    <li class = "active"><a href="javascript:showBook(0)">全部</a></li>
-                    <li><a href="javascript:showBook(1)">文学</a></li>
-                    <li><a href="javascript:showBook(2)">生活</a></li>
-                    <li><a href="javascript:showBook(3)">外语</a></li>
-                    <li><a href="javascript:showBook(4)">经管</a></li>
-                    <li><a href="javascript:showBook(5)">励志</a></li>
-                    <li><a href="javascript:showBook(6)">社科</a></li>
-                    <li><a href="javascript:showBook(7)">学术</a></li>
-                    <li><a href="javascript:showBook(8)">艺术</a></li>
-                    <li><a href="javascript:showBook(9)">科技</a></li>
+                    <li><a href="javascript:showBook('全部')">全部</a></li>
+                    <li><a href="javascript:showBook('文学')">文学</a></li>
+                    <li><a href="javascript:showBook('生活')">生活</a></li>
+                    <li><a href="javascript:showBook('外语')">外语</a></li>
+                    <li><a href="javascript:showBook('经管')">经管</a></li>
+                    <li><a href="javascript:showBook('励志')">励志</a></li>
+                    <li><a href="javascript:showBook('社科')">社科</a></li>
+                    <li><a href="javascript:showBook('学术')">学术</a></li>
+                    <li><a href="javascript:showBook('艺术')">艺术</a></li>
+                    <li><a href="javascript:showBook('科技')">科技</a></li>
                 </ul>
             </div>
         </div>
@@ -117,7 +117,7 @@
             </div> 
         </div>
         <hr style = "margin:0% 15% 0% 15%;color: white;background-color: white;height: 10px;border: 0">
-        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 1000px;">
+        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 600px;">
         
         </div>
     <script src="js/jquery.min.js" ></script>
@@ -125,17 +125,56 @@
     <script src="js/commons.js"></script>
     <script src="js/canva_moving_effect.js"></script>
     <script language="JavaScript">
-        function showBook(categoryID) {
-            xmlHttp.onreadystatechange = function() {
-                if (xmlHttp.readyState == 4) {
-                    if(xmlHttp.status == 200) {
+        function showBook(category) {
+            if(category=="全部") {
+                xmlHttp.open("GET", "/book/allBooks", true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
                         var data = xmlHttp.responseText;
-                        document.getElementById("book").innerHTML = data;
+                        var obj = JSON.parse(data);
+                        var listbook = '';
+                        for (var i in obj) {
+                            var bookname = obj[i].name;
+                            var desc = obj[i].introduction;
+                            var imgurl = obj[i].imgurl;
+                            if (desc.length > 20) {
+                                desc = desc.substring(0, 17)
+                            }
+                            listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
+                                + bookname +
+                                `</h4><p>` + desc +
+                                `</p><p><a href="#" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
+                                `</a></p></div></div> </div>`;
+                        }
+                        document.getElementById("book").innerHTML = listbook;
                     }
                 }
+                xmlHttp.send();
+            } else {
+                xmlHttp.open("GET", "/book/selectBooksByCategory?category=" + category, true);
+                xmlHttp.onreadystatechange = function () {
+                    if (xmlHttp.readyState == 4) {
+                        var data = xmlHttp.responseText;
+                        var obj = JSON.parse(data);
+                        var listbook = '';
+                        for (var i in obj) {
+                            var bookname = obj[i].name;
+                            var desc = obj[i].introduction;
+                            var imgurl = obj[i].imgurl;
+                            if (desc.length > 20) {
+                                desc = desc.substring(0, 17)
+                            }
+                            listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
+                                + bookname +
+                                `</h4><p>` + desc +
+                                `</p><p><a href="#" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
+                                `</a></p></div></div> </div>`;
+                        }
+                        document.getElementById("book").innerHTML = listbook;
+                    }
+                }
+                xmlHttp.send();
             }
-            xmlHttp.open("GET", "getBook.html?id="+categoryID, true);
-            xmlHttp.send();
         }
         function GetQueryString(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");

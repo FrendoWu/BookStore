@@ -40,6 +40,16 @@ public class BookstoreServiceImp implements BookstoreService {
     }
 
     @Override
+    public List<Book> selectAllBooks() {
+        return bookDao.selectAllBooks();
+    }
+
+    @Override
+    public List<Book> selectBooksByCategory(String category) {
+        return  bookDao.selectBooksByCategory(category);
+    }
+
+    @Override
     public List<Order> slctOdrsByUsridAndStat(int userid, int status) {
         return orderDao.slctOdrsByUsridAndStat(userid, status);
     }
