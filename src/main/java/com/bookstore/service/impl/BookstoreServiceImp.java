@@ -21,15 +21,22 @@ public class BookstoreServiceImp implements BookstoreService {
     OrderDao orderDao;
     @Autowired
     BookDao bookDao;
+    @Autowired
+    UserAccountDao userAccountDao;
 
     @Override
-    public List<Test> selectAllUserAccount() {
-        return testDao.selectAllUserAccount();
+    public List<UserAccount> selectAllUserAccount() {
+        return  userAccountDao.selectAllUserAccount();
     }
 
     @Override
-    public Test selectUserAccount(String account) {
-        return testDao.selectUserAccount(account);
+    public UserAccount selectUserAccountByAccount(String account) {
+        return userAccountDao.selectUserAccountByAccount(account);
+    }
+
+    @Override
+    public void insertUserAccount(UserAccount userAccount) {
+        userAccountDao.insertUserAccount(userAccount);
     }
 
     @Override
@@ -50,5 +57,20 @@ public class BookstoreServiceImp implements BookstoreService {
     @Override
     public void InsertBooks(Book book){
         bookDao.InsertBooks(book);
+    }
+
+    @Autowired
+    TrolleyDao trolley_Dao;
+    @Override
+    public Trolley selectTrolleyByUserId(int userId) {return trolley_Dao.selectUserAccount(userId);}
+
+    @Override
+    public void insertTrollyByUserId(int userId, int bookId, int number) {
+        trolley_Dao.insertTrollyByUserId(userId,bookId,number);
+    }
+
+    @Override
+    public void updateTrollyByUserId(int userId, int number) {
+        trolley_Dao.updateTrollyByUserId(userId,number);
     }
 }

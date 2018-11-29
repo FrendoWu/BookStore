@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
     <title>网上书城</title>
+    <style>
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #bg canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
-<body onload = "initAJAX()" background="images\bg1.jpg" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
+<body onload = "initAJAX();getUserName()" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
+        <div id="bg">
+            <canvas></canvas>
+            <canvas></canvas>
+            <canvas></canvas>
+        </div>
         <div class = "page-header" style="margin: 0% 15% 0% 15%; background-color:powderblue;padding: 0;border: 0">
             <div id = "top" class = "row">
                 <div id = "top_left" class = "col-sm-4 text-right">
@@ -15,7 +38,7 @@
                         <h1 class = "text-primary" style = "font-family: STHupo">我的网上书城</h1>
                 </div>
                 <div id = "top_right" class = "col-sm-4" style = "margin-top: 70px; font-family: SKKaiti; font-size: 15px">
-                    欢迎进入XXX网上书城，请<a href = "#" color = "red">登录</a>或<a href = "#">注册</a>！
+                    欢迎进入XXX网上书城，请<a href = "login.html">登录</a>或<a href = "register.html">注册</a>！
                 </div>
             </div>
         </div>
@@ -94,12 +117,13 @@
             </div> 
         </div>
         <hr style = "margin:0% 15% 0% 15%;color: white;background-color: white;height: 10px;border: 0">
-        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white">
+        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 1000px;">
         
         </div>
     <script src="js/jquery.min.js" ></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/commons.js"></script>
+    <script src="js/canva_moving_effect.js"></script>
     <script language="JavaScript">
         function showBook(categoryID) {
             xmlHttp.onreadystatechange = function() {
@@ -112,6 +136,19 @@
             }
             xmlHttp.open("GET", "getBook.html?id="+categoryID, true);
             xmlHttp.send();
+        }
+        function GetQueryString(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+        function getUserName() {
+            var username = GetQueryString("account");
+            if(username!= null) {
+                var dom1 = document.getElementById("top_right");
+                dom1.innerHTML = "欢迎用户"+username;
+            }
         }
     </script>
 </body>
