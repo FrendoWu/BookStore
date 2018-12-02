@@ -23,6 +23,8 @@ public class BookstoreServiceImp implements BookstoreService {
     BookDao bookDao;
     @Autowired
     UserAccountDao userAccountDao;
+    @Autowired
+    TrolleyDao trolley_Dao;
 
     @Override
     public List<UserAccount> selectAllUserAccount() {
@@ -37,6 +39,11 @@ public class BookstoreServiceImp implements BookstoreService {
     @Override
     public void insertUserAccount(UserAccount userAccount) {
         userAccountDao.insertUserAccount(userAccount);
+    }
+
+    @Override
+    public void updateUserAccount(int id, String password) {
+        userAccountDao.updateUserAccount(id,password);
     }
 
     @Override
@@ -55,28 +62,56 @@ public class BookstoreServiceImp implements BookstoreService {
     }
 
     @Override
-    public void InsertOrders(Order order) {
-        orderDao.InsertOrders(order);
+    public void insertOrders(Order order) {
+        orderDao.insertOrders(order);
     }
 
     @Override
-    public List<Book> selectBookByID(int id){
+    public List<Order> selectOrdersByStatus(int userId, int status) {
+        return orderDao.selectOrdersByStatus(userId,status);
+    }
+
+    @Override
+    public List<Order> selectAllOrdersByStatus(int status) {
+        return orderDao.selectAllOrdersByStatus(status);
+    }
+
+    @Override
+    public void updateStatus(int id, int status) {
+        orderDao.updateOrderStatus(id, status);
+    }
+
+    @Override
+    public Book selectBookByID(int id){
         return bookDao.selectBookByID(id);
     }
 
     @Override
-    public void InsertBooks(Book book){
-        bookDao.InsertBooks(book);
+    public void insertBook(Book book){
+        bookDao.insertBook(book);
     }
 
-    @Autowired
-    TrolleyDao trolley_Dao;
     @Override
-    public Trolley selectTrolleyByUserId(int userId) {return trolley_Dao.selectUserAccount(userId);}
+    public List<Trolley> selectTrolleyByUserId(int userId) {return trolley_Dao.selectTrolleyByUserId(userId);}
 
     @Override
-    public void insertTrollyByUserId(int userId, int bookId, int number) {
-        trolley_Dao.insertTrollyByUserId(userId,bookId,number);
+    public List<Trolley> selectTrolleyByUserIdAndBookId(int userId, int bookId) {
+        return trolley_Dao.selectTrolleyByUserIdAndBookId(userId, bookId);
+    }
+
+    @Override
+    public void insertTrolly(int userId, int bookId, int number) {
+        trolley_Dao.insertTrolly(userId,bookId,number);
+    }
+
+    @Override
+    public void deleteTrolley(int id, int userId) {
+        trolley_Dao.deleteTrolley(id, userId);
+    }
+
+    @Override
+    public void deleteAllTrolleyByUserId(int userId) {
+        trolley_Dao.deleteAllTrolleyByUserId(userId);
     }
 
     @Override

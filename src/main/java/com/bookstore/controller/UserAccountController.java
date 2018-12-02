@@ -1,6 +1,5 @@
 package com.bookstore.controller;
 
-import com.bookstore.domain.Book;
 import com.bookstore.domain.UserAccount;
 import com.bookstore.service.BookstoreService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -62,7 +61,7 @@ public class UserAccountController {
                 if(adminlevel==1) {
                     response.sendRedirect("/index.html?account=" + userAccount.getAccount());
                 } else if(adminlevel == 0) {
-                    response.sendRedirect("/admin.html");
+                    response.sendRedirect("/admin2.html");
                 }
             } else {
 //                request.getRequestDispatcher("/loginFailed.html?status=2");
@@ -70,6 +69,14 @@ public class UserAccountController {
                 response.sendRedirect("/login.html？status=2");
             }
         }
+    }
+
+    @RequestMapping(value = "/loginStep",method = RequestMethod.GET, produces= "application/json;charset=UTF-8")
+    @ResponseBody
+    public void loginStep(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        UserAccount userAccount = (UserAccount)session.getAttribute("user");
+        response.sendRedirect("/index.html?account="+userAccount.getAccount());
     }
 
     @RequestMapping(value = "/registerUser",method = RequestMethod.POST, produces= "application/json;charset=UTF-8")
@@ -89,5 +96,39 @@ public class UserAccountController {
             BookstoreService.insertUserAccount(userAccount);
             response.sendRedirect("/account/loginUser?account="+account+"&password="+password);
         }
+    }
+
+    @RequestMapping(value = "/cancellation",method = RequestMethod.GET, produces= "application/json;charset=UTF-8")
+    @ResponseBody
+    public void cancellation(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        response.sendRedirect("/index.html");
+    }
+
+    @RequestMapping(value = "/adminSelectUser",method = RequestMethod.GET, produces= "application/json;charset=UTF-8")
+    @ResponseBody
+    public String adminSelectUser(){
+//        String account = request.getParameter("account");
+        String account = "account1";
+        UserAccount userAccount = BookstoreService.selectUserAccountByAccount(account);
+        if(userAccount == null) {
+            return "none";
+        } else {
+            JSONObject userJson = JSONObject.fromObject(userAccount);
+            return userJson.toString();
+        }
+    }
+
+    @RequestMapping(value = "/adminUpdateUser",method = RequestMethod.GET, produces= "application/json;charset=UTF-8")
+    @ResponseBody
+    public void adminUpdateUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        String account = request.getParameter("account");
+//        String account = "account1";
+//        int userId = 2;
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        String password = "123456";
+        BookstoreService.updateUserAccount(userId,password);
+        response.sendRedirect("/admin2.html?status=1");
     }
 }

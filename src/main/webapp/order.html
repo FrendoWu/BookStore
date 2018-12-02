@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
+    <style>
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        #bg canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        ul,li,div,a,body,html,head {
+            margin: 0;
+            padding: 0;
+            border: none;
+        }
+    </style>
+</head>
+<body onload="initAJAX();showAllOrder();">
+    <div id="bg">
+        <canvas></canvas>
+        <canvas></canvas>
+        <canvas></canvas>
+    </div>
+    <div class = "page-header" style="margin: 0% 15% 0% 15%; background-color:powderblue;padding: 0;border: 0">
+        <div id = "top" class = "row">
+            <div id = "top_left" class = "col-sm-4 text-right">
+                <img src = "images/logo.ico" width="100" height = "100" style = "margin-top: 15px"/>
+            </div>
+            <div class="col-sm-4" style = "margin-top: 20px">
+                <h1 class = "text-primary" style = "font-family: STHupo">我的网上书城</h1>
+            </div>
+            <div id = "top_right" class = "col-sm-4" style = "margin-top: 25px;">
+                <img src="images/order.png" width="100" height="100" style = "margin-top: 0; padding-top: 0"/>
+            </div>
+        </div>
+    </div>
+    <div style = "margin: 0 15% 0 15%;padding: 0;border: 0;background-color: white;">
+        <ul class="nav nav-tabs" style="font-family: STXingkai;font-size: 25px;color: aliceblue;text-decoration: none;margin-top: 0;padding-top: 0;background-color: #46b8da">
+            <li style="background-color: #46b8da"><a href="javascript:showAllOrder()">全部订单</a></li>
+            <li><a href="javascript:showOrder(0)">进行中订单</a></li>
+            <li><a href="javascript:showOrder(1)">已完成订单</a></li>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <li><a href="/account/loginStep">返回首页</a></li>
+        </ul>
+    </div>
+    <div id = "order" class = "row" style = "margin: 0 15% 0 15%;padding: 0;border: 0;background-color:#777777;height: 1000px;">
+
+    </div>
+    <script src="js/jquery.min.js" ></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/commons.js"></script>
+    <script src="js/canva_moving_effect.js"></script>
+    <script language="JavaScript">
+        function showOrder(status) {
+            xmlHttp.open("GET", "/order/selectOrdersByStatus?status="+status+"&flag=1", true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    var data = xmlHttp.responseText;
+                    var obj = JSON.parse(data);
+                    var listOrder = '';
+                    for (var i in obj) {
+                        var id = obj[i].id;
+                        var books = obj[i].books;
+                        var allmoney = obj[i].allMoney;
+                        var status = obj[i].status;
+                        var number=0;
+                        for(var j=1; j < books.length;j=j+2) {
+                            var x=parseInt(books.charAt(j));
+                            number=number+x;
+                        }
+                        if(status==1) {
+                            listOrder += `<div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    订单编号` + id + `&nbsp;&nbsp;共计` + number + `件商品&nbsp;&nbsp;总价:` + allmoney + `
+                                                    <a href="javascript:showBookIn(` + books + `,` + id + `)">
+                                                        查看详情
+                                                    </a>
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapse` + id + `">
+                                                        收起/折叠
+                                                    </a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse` + id + `" class="panel-collapse collapse in">
+                                                <div class="panel-body" id = "order` + id + `">
+
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        } else {
+                            listOrder += `<div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    订单编号` + id + `&nbsp;&nbsp;共计` + number + `件商品&nbsp;&nbsp;总价:` + allmoney + `
+                                                    <a href="javascript:showBookIn(` + books + `,` + id + `)">
+                                                        查看详情
+                                                    </a>
+                                                    <a data-toggle="collapse" data-parent="#accordion"
+                                                       href="#collapse` + id + `">
+                                                        收起/折叠
+                                                    </a>
+                                                    <a href="/order/updateStatus?orderId=`+id+`&flag=0" style="text-align: left">
+                                                    确认收货
+</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapse` + id + `" class="panel-collapse collapse in">
+                                                <div class="panel-body" id = "order` + id + `">
+
+                                                </div>
+                                            </div>
+                                        </div>`;
+                        }
+                    }
+                    document.getElementById("order").innerHTML = listOrder;
+                }
+            }
+            xmlHttp.send();
+        }
+        function showAllOrder() {
+            showOrder(0);
+            showOrder(1);
+        }
+        function showBookIn(books,id) {
+            xmlHttp.open("GET", "/book/allBooksIn?books="+books, true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    var data = xmlHttp.responseText;
+                    var obj = JSON.parse(data);
+                    var listbook = '';
+                    for (var i in obj) {
+                        var bookname = obj[i].name;
+                        var desc = obj[i].introduction;
+                        var bookId = obj[i].id;
+                        var imgurl = obj[i].imgurl;
+                        var money = obj[i].money;
+                        if (desc.length > 20) {
+                            desc = desc.substring(0, 17)
+                        }
+                        listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
+                            + bookname +`&nbsp;&nbsp;`+money+
+                            `元</h4><p>` + desc +
+                            `</p>`
+                            +`</div></div> </div>`;
+                    }
+                    document.getElementById("order"+id).innerHTML = listbook;
+                }
+            }
+            xmlHttp.send();
+        }
+    </script>
+</body>
+</html>

@@ -6,7 +6,7 @@ CREATE TABLE `user_account` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户表';
 
-insert into `user_account` values (null, 'account1', 'password1','0');
+insert into `user_account` values (null, 'admin', 'root','0');
 insert into `user_account` values (null, 'account2', 'password2','1');
 
 CREATE TABLE `book` (
@@ -19,8 +19,10 @@ CREATE TABLE `book` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='书籍信息表';
 
-insert into `book` values (null, '文学', '活着','这是《活着》用于测试的书籍简介','50','活着.jpg');
-insert into `book` values (null, '生活', '宇宙的琴弦','这是《宇宙的琴弦》用于测试的书籍简介','50','宇宙的琴弦.jpg');
+insert into `book` values (null, '外语', '初级词汇手册','日语初级学习教材','25','books/初级词汇手册.png');
+insert into `book` values (null, '生活', '生活需要仪式感','一本还不错的枕边读物','45','books/生活需要仪式感.png');
+insert into `book` values (null, '文学', '雅舍忆旧','编辑推荐的好看作品','30','books/雅舍旧忆.png');
+
 
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -31,9 +33,6 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单信息表';
 
-insert into `orders` values(null, '1', '12', '100', '1');
-insert into `orders` values(null, '2', '13', '50', '0');
-
 CREATE TABLE `trolley` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL COMMENT '用户ID',
@@ -41,7 +40,3 @@ CREATE TABLE `trolley` (
   `number` int(11) NOT NULL COMMENT '书籍数量',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='购物车表';
-
-insert into `trolley` values(null, '1', '1','1');
-insert into `trolley` values(null, '1', '2','2');
-insert into `trolley` values(null, '2', '2','2');

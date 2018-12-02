@@ -37,4 +37,10 @@
 
     <!-- 启用支持annotation注解方式事务管理 -->
     <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000"/>
+        <property name="maxInMemorySize" value="10240" />
+    </bean>
 </beans>

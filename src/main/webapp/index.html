@@ -23,7 +23,7 @@
         }
     </style>
 </head>
-<body onload = "initAJAX();getUserName();showBook('全部')" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
+<body onload = "initAJAX();getUserName();showBook('全部');getStatus();" style=" background-repeat:no-repeat;background-size:100% 100%;background-attachment: fixed;padding: 0%;margin: 0%">
         <div id="bg">
             <canvas></canvas>
             <canvas></canvas>
@@ -117,7 +117,7 @@
             </div> 
         </div>
         <hr style = "margin:0% 15% 0% 15%;color: white;background-color: white;height: 10px;border: 0">
-        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 600px;">
+        <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 1000px;">
         
         </div>
     <script src="js/jquery.min.js" ></script>
@@ -136,14 +136,23 @@
                         for (var i in obj) {
                             var bookname = obj[i].name;
                             var desc = obj[i].introduction;
+                            var bookId = obj[i].id;
                             var imgurl = obj[i].imgurl;
+                            var money = obj[i].money;
                             if (desc.length > 20) {
                                 desc = desc.substring(0, 17)
                             }
                             listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
-                                + bookname +
-                                `</h4><p>` + desc +
-                                `</p><p><a href="#" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
+                                + bookname +`&nbsp;&nbsp;`+money+
+                                `元</h4><p>` + desc +
+                                `</p>`+
+                                `<!--<ul class="box" style="list-style: none;border:0;height: 40px;width: 200px;margin: 0px;text-align: center;padding: 0;">
+			                           <li><button id="plus" style="display: block;float: left;vertical-align: middle;">+</button></li>
+			                           <li><input type="text" id="text" value="1" style="width: 40px;text-align: center;display: block;float: left;vertical-align: middle;"/></li>
+			                           <li><button id="subtract" style="display: block;float: left;vertical-align: middle;">-</button></li>
+			                           <li>¥<input type="text" id="money" value="`+money+`" style="border:none;width: 20px;text-align: center;display: block;float: left;vertical-align: middle;padding: 0;margin:0;"/></li>
+		                          </ul>-->`
+                                +`<p><a href="/trolley/insertTrolley?bookId=`+bookId+`&number=1`+`" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
                                 `</a></p></div></div> </div>`;
                         }
                         document.getElementById("book").innerHTML = listbook;
@@ -161,13 +170,22 @@
                             var bookname = obj[i].name;
                             var desc = obj[i].introduction;
                             var imgurl = obj[i].imgurl;
+                            var bookId = obj[i].id;
+                            var money = obj[i].money;
                             if (desc.length > 20) {
                                 desc = desc.substring(0, 17)
                             }
                             listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
-                                + bookname +
-                                `</h4><p>` + desc +
-                                `</p><p><a href="#" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
+                                + bookname +`&nbsp;&nbsp;`+money+
+                                `元</h4><p>` + desc +
+                                `</p>`+
+                                `<!--<ul class="box" style="list-style: none;border:0;height: 40px;width: 200px;margin: 0px;text-align: center;padding: 0;">
+			                           <li><button id="plus" style="display: block;float: left;vertical-align: middle;">+</button></li>
+			                           <li><input type="text" id="text" value="1" style="width: 40px;text-align: center;display: block;float: left;vertical-align: middle;"/></li>
+			                           <li><button id="subtract" style="display: block;float: left;vertical-align: middle;">-</button></li>
+			                           <li><input type="text" id="money" value="`+money+`" style="border:none;width: 40px;text-align: center;display: block;float: left;vertical-align: middle;"/>元</li>
+		                          </ul>-->`
+                                +`<p><a href="/trolley/insertTrolley?bookId=`+bookId+`&number=`+document.getElementById("text")+`" class="btn btn-primary" role="button">加入购物车</a> <a href="#" class="btn btn-default" role="button">查看详情` +
                                 `</a></p></div></div> </div>`;
                         }
                         document.getElementById("book").innerHTML = listbook;
@@ -186,7 +204,15 @@
             var username = GetQueryString("account");
             if(username!= null) {
                 var dom1 = document.getElementById("top_right");
-                dom1.innerHTML = "欢迎用户"+username;
+                dom1.innerHTML = "欢迎用户"+username + "&nbsp;&nbsp;<a href='/trolley.html'>购物车</a>&nbsp;&nbsp;<a href='/order.html'>订单</a>&nbsp;&nbsp;"+"<a href = '/account/cancellation'>注销</a>";
+            }
+        }
+        function getStatus() {
+            var status =GetQueryString("status");
+            if(status == 1) {
+                window.alert("成功加入购物车！")
+            } else if(status ==2) {
+                window.alert("添加失败，购物车中已存在！");
             }
         }
     </script>

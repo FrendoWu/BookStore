@@ -32,7 +32,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="initAJAX();showTrolley();">
     <div id="bg">
         <canvas></canvas>
         <canvas></canvas>
@@ -53,10 +53,47 @@
     </div>
     <div id="trolley">
         <div>&nbsp;&nbsp;&nbsp;&nbsp;购物车</div>
+        <div class = "raw"style="font-family: STXingkai;font-size: 40px;color: aliceblue;text-decoration: none;margin-top: 0;padding-top: 0;background-color: #46b8da">
+            <div class = "col-sm-4" style = "background-color: #46b8da;text-align: center;"><a href="/account/loginStep">返回首页</a></div>
+            <div class = "col-sm-4" style = "background-color: #46b8da;text-align: center;"><a href="/order/insertOrder">提交订单</a></div>
+            <div class = "col-sm-4" style = "background-color: #46b8da;text-align: center;"><a href = "/trolley/deleteAll">清空购物车</a></div>
+        </div>
+    </div>
+    <div id = "book" style = "margin:0% 15% 0% 15%;background-color: white; height: 1000px;">
+
     </div>
     <script src="js/jquery.min.js" ></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/commons.js"></script>
     <script src="js/canva_moving_effect.js"></script>
+    <script language = "JavaScript">
+        function showTrolley() {
+            xmlHttp.open("GET", "/trolley/selectTrolley", true);
+            xmlHttp.onreadystatechange = function () {
+                if (xmlHttp.readyState == 4) {
+                    var data = xmlHttp.responseText;
+                    var obj = JSON.parse(data);
+                    var listbook = '';
+                    for (var i in obj) {
+                        var bookname = obj[i].name;
+                        var desc = obj[i].introduction;
+                        var bookId = obj[i].id;
+                        var imgurl = obj[i].imgurl;
+                        var money = obj[i].money;
+                        if (desc.length > 20) {
+                            desc = desc.substring(0, 17)
+                        }
+                        listbook += `<div class="col-sm-9 col-md-3"><div class="thumbnail" ><img style="width: 200px;height: 300px" src="` + imgurl + `\"><div class="caption"><h4>`
+                            + bookname +`&nbsp;&nbsp;`+money+
+                            `元</h4><p>` + desc +
+                            `</p>`+`<input type="text" value="1">本`
+                            +`</div><a href="/trolley/deleteTrolley?bookId=\`+bookId+\`">Remove</a></div></div>`;
+                    }
+                    document.getElementById("book").innerHTML = listbook;
+                }
+            }
+            xmlHttp.send();
+        }
+    </script>
 </body>
 </html>

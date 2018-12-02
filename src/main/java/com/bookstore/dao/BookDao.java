@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface BookDao {
-    @Select("select id, category, name, introduction, money, imgurl from user_account where id = #{id}")
-    List<Book> selectBookByID(int id); //select a book by id or by something else
+    @Select("select * from book where id = #{id}")
+    Book selectBookByID(int id); //select a book by id
 
-    @Insert("insert into orders (id, category, name, introduction, money, imgurl) values (#{id},#{category},#{name},#{introduction},#{money},#{imgurl})")
-    void InsertBooks(Book book);
+    @Insert("insert into book (id, category, name, introduction, money, imgurl) values (null,#{category},#{name},#{introduction},#{money},#{imgurl})")
+    void insertBook(Book book);
 
     @Select("select * from book")
     List<Book> selectAllBooks();

@@ -2,9 +2,9 @@ package com.bookstore.domain;
 
 public class Order{
     private int id;
-    private int userid;
+    private int userId;
     private String books;
-    private int allmoney;
+    private int allMoney;
     private int status;
 
     public int getId() {
@@ -15,12 +15,12 @@ public class Order{
         this.id = id;
     }
 
-    public int getUserid() {
-        return userid;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserid(int userid) {
-        this.userid = userid;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getBooks() {
@@ -31,12 +31,12 @@ public class Order{
         this.books = books;
     }
 
-    public int getAllmoney() {
-        return allmoney;
+    public int getAllMoney() {
+        return allMoney;
     }
 
-    public void setAllmoney(int allmoney) {
-        this.allmoney = allmoney;
+    public void setAllMoney(int allMoney) {
+        this.allMoney = allMoney;
     }
 
     public int getStatus() {
